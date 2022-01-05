@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First vue!</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{ name }} <!-- 아래 data안에있는 name에서 값을 불러온다-->
+    </div>
+    <script>
+        new Vue({
+            el: '#app', // div의 id를 설정
+            data: {
+                name: 'Junyoung Ju'
+            }
+        })
+    </script>
+</body>
+</html>
