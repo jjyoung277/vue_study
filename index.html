@@ -8,13 +8,26 @@
 </head>
 <body>
     <div id="app">
-        {{ name }} <!-- 아래 data안에있는 name에서 값을 불러온다-->
+        {{ nextYear() }}
+        <br>
+        {{ nextYearGreeting(' Happy new year') }} // 변수와 함께 함수 호출
     </div>
     <script>
         new Vue({
-            el: '#app', // div의 id를 설정
+            el: '#app',
             data: {
-                name: 'Junyoung Ju'
+                person: { // 객체로 생성도 가능하다
+                    name: 'Junyoung Ju',
+                    age: 34
+                }
+            },
+            methods: {
+                nextYear: function() { // 함수도 만들수 있다
+                    return this.person.name + ' will become ' + this.person.age + 1 + ' years old';
+                },
+                nextYearGreeting: function(message) { 
+                    return this.nextYear() + message; // 함수도 this.으로 사용하면 된다
+                }
             }
         })
     </script>
