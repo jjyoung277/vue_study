@@ -10,23 +10,43 @@
     <div id="app">
         {{ nextYear() }}
         <br>
+
         {{ nextYearGreeting(' Happy new year') }}
+        <br>
+
+        <input v-bind:type="type" v-bind:value="inputData"> <!-- 데이터를 inputData로 연결하고 싶다-->
+        <input :type="type" :value="inputData"> <!-- v-bind prefix는 제거할 수 있다. 윗줄과 같은 의미임-->
+        <br>
+
+        <a :href="linkKossieCoder">코지코더 채널</a> <!-- a태그에도 바인딩 가능-->
+        <br>
+
+        <a :href="getYoutubeLinkWithSuffix('kossiecoder')">함수로 얻은 채널</a> <!-- 함수로 가져올수도 있다-->
     </div>
     <script>
         new Vue({
             el: '#app',
             data: {
-                person: { // 객체로 생성도 가능하다
+                person: {
                     name: 'Junyoung Ju',
-                    age: 34
-                }
+                    age: 30
+                },
+                inputData: '1234',
+                type: 'number',
+                linkKossieCoder: 'https://www.youtube.com/kossiecoder'
             },
             methods: {
-                nextYear: function() { // 함수도 만들수 있다
-                    return this.person.name + ' will become ' + this.person.age + 1 + ' years old';
+                nextYear: function() {
+                    return this.person.name + ' will become ' + (this.person.age + 1) + ' years old';
                 },
-                nextYearGreeting(message) { // 변수도 받는다 // :function()은 없어도 된다
-                    return this.nextYear() + message; // 함수도 this.으로 사용하면 된다
+                nextYearGreeting(message) {
+                    return this.nextYear() + message;
+                },
+                printInputData() {
+                    return this.inputData;
+                },
+                getYoutubeLinkWithSuffix(suffix) {
+                    return 'https://www.youtube.com/' + suffix
                 }
             }
         })
