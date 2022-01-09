@@ -54,6 +54,17 @@
             <input type="text" v-model="chap05TextTwoWayBinding"><br> <!-- v-model을 이용한 양방향 데이터 바인딩을 사용하면 코드가 훨씬 간단하다 -->
             {{ chap05TextTwoWayBinding }}
         </form>
+
+        <br><br>
+        <!-- chap06 computed 속성-->
+        {{ chap06Number + 1 }} <br> <!-- 이런 간단한 연산은 바로 집어넣어도 되지만 연산이 복잡해지면 유지보수가 어렵고 내용 파악도 어렵다 -->
+        {{ chap06Message.split('').reverse().join('') }} <br> <!-- 문장을 거꾸로 뒤집어주는 함수. 이런게 많아지면 나중에 수정이 힘들다 -->
+        {{ reversedMessage }} <br> <!-- computed를 사용하면 코드가 훨씬 좋아진다-->
+        {{ reversedMessageMethodVersion() }} <br> <!-- 함수를 사용하면 ()를 붙여줘야 하고, computed속성은 ()를 붙이지 않아도 된다-->
+        <!-- computed 속성은 캐싱을 하고, 함수는 캐싱을 하지 않는다. -->
+        <!-- 함수는 10번 호출하면 10번 계산을 하지만, computed 속성은 처음 한번만 계산하면 돼서 성능에 이점이 있다. -->
+        <!-- 만약 chap06Message가 변경되면 computed속성은 다시한번 계산해서 캐싱 해준다. -->
+        <button @click="changeChap06Message">값 변경</button>
     </div>
     <script>
         new Vue({
@@ -68,7 +79,9 @@
                 linkKossieCoder: 'https://www.youtube.com/kossiecoder',
                 currentValue: 0,
                 chap05Text: 'text',
-                chap05TextTwoWayBinding: 'text'
+                chap05TextTwoWayBinding: 'text',
+                chap06Number: 1,
+                chap06Message: '안녕하세요'
             },
             methods: {
                 nextYear: function() {
@@ -97,6 +110,17 @@
                 },
                 updateText(event) { // 이 event는 자동으로 받은 event 객체
                     this.chap05Text = event.target.value; // event.target.value가 현재 값을 가지고 있다
+                },
+                reversedMessageMethodVersion() {
+                    return this.chap06Message.split('').reverse().join('')
+                },
+                changeChap06Message() {
+                    this.chap06Message = "값이변경됨"
+                }
+            },
+            computed: {
+                reversedMessage() {
+                    return this.chap06Message.split('').reverse().join('')
                 }
             }
         })
