@@ -14,14 +14,36 @@
         {{ nextYearGreeting(' Happy new year') }}
         <br>
 
-        <input v-bind:type="type" v-bind:value="inputData"> <!-- 데이터를 inputData로 연결하고 싶다-->
-        <input :type="type" :value="inputData"> <!-- v-bind prefix는 제거할 수 있다. 윗줄과 같은 의미임-->
+        <input v-bind:type="type" v-bind:value="inputData">
+        <input :type="type" :value="inputData">
         <br>
 
-        <a :href="linkKossieCoder">코지코더 채널</a> <!-- a태그에도 바인딩 가능-->
+        <a :href="linkKossieCoder">코지코더 채널</a>
         <br>
 
-        <a :href="getYoutubeLinkWithSuffix('kossiecoder')">함수로 얻은 채널</a> <!-- 함수로 가져올수도 있다-->
+        <a :href="getYoutubeLinkWithSuffix('kossiecoder')">함수로 얻은 채널</a>
+        <br>
+
+        <button onClick="alert('hello kossiecoder')">Click Me</button> <!-- 기본 javascript의 이벤트 처리 문법-->
+        <button v-on:click="alert">Click Me</button> <!-- vue의 문법-->
+        <br>
+
+        <!-- 예제 -->
+        {{ currentValue }}
+        <br>
+        <button v-on:click="addCurrentValue()">Add value</button> <!-- 버튼을 누르면 값이 바뀌도록 버튼 구현 (여기서는 v-on이 빠지면 동작을 안하네...)-->
+        <button v-on:click="subCurrentValue()">Subtract value</button>
+        <br>
+
+        <!-- 예제2 -->
+        <form v-on:submit="submit"> <!-- form은 기본적으로 submit버튼을 누르면 페이지를 리로드 해버린다 -->
+            <input type="text"><br>
+            <button type="submit">Submit with refresh</button>
+        </form><br>
+        <form v-on:submit.prevent="submit"> <!-- 리로드 하지 않도록 이벤트 차단 .prevent 사용-->
+            <input type="text"><br>
+            <button type="submit">Submit without refresh</button>
+        </form>
     </div>
     <script>
         new Vue({
@@ -33,7 +55,9 @@
                 },
                 inputData: '1234',
                 type: 'number',
-                linkKossieCoder: 'https://www.youtube.com/kossiecoder'
+                linkKossieCoder: 'https://www.youtube.com/kossiecoder',
+                currentValue: 0,
+                inputData2: ""
             },
             methods: {
                 nextYear: function() {
@@ -47,6 +71,18 @@
                 },
                 getYoutubeLinkWithSuffix(suffix) {
                     return 'https://www.youtube.com/' + suffix
+                },
+                alert() {
+                    alert('hi Kossiecoder')
+                },
+                addCurrentValue() {
+                    this.currentValue++
+                },
+                subCurrentValue() {
+                    this.currentValue--
+                },
+                submit() {
+                    alert("submitted" + this.inputData2)
                 }
             }
         })
