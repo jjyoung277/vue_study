@@ -24,25 +24,35 @@
         <a :href="getYoutubeLinkWithSuffix('kossiecoder')">함수로 얻은 채널</a>
         <br>
 
-        <button onClick="alert('hello kossiecoder')">Click Me</button> <!-- 기본 javascript의 이벤트 처리 문법-->
-        <button v-on:click="alert">Click Me</button> <!-- vue의 문법-->
+        <button onClick="alert('hello kossiecoder')">Click Me</button>
+        <button v-on:click="alert">Click Me</button>
         <br>
 
-        <!-- 예제 -->
         {{ currentValue }}
         <br>
-        <button v-on:click="addCurrentValue()">Add value</button> <!-- 버튼을 누르면 값이 바뀌도록 버튼 구현 (여기서는 v-on이 빠지면 동작을 안하네...)-->
+        <button v-on:click="addCurrentValue()">Add value</button>
         <button v-on:click="subCurrentValue()">Subtract value</button>
         <br>
 
-        <!-- 예제2 -->
-        <form v-on:submit="submit"> <!-- form은 기본적으로 submit버튼을 누르면 페이지를 리로드 해버린다 -->
+        <form v-on:submit="submit">
             <input type="text"><br>
             <button type="submit">Submit with refresh</button>
         </form><br>
-        <form v-on:submit.prevent="submit"> <!-- 리로드 하지 않도록 이벤트 차단 .prevent 사용-->
+        <form v-on:submit.prevent="submit">
             <input type="text"><br>
             <button type="submit">Submit without refresh</button>
+        </form>
+
+        <!-- 양방향 데이터 바인딩이 아닌 예제-->
+        <form>
+            <input type="text" :value="chap05Text" @keyup="updateText"><br> <!-- v-on:은 @로 대체가 가능하다 --> <!-- 함수 호출시 아무 파라미터를 주지 않아도 keyboard 관련 이벤트를 자동으로 넣어준다-->
+            {{ chap05Text }}
+        </form>
+        <br>
+        <!-- 양방향 데이터 바인딩을 사용한 예제 -->
+        <form >
+            <input type="text" v-model="chap05TextTwoWayBinding"><br> <!-- v-model을 이용한 양방향 데이터 바인딩을 사용하면 코드가 훨씬 간단하다 -->
+            {{ chap05TextTwoWayBinding }}
         </form>
     </div>
     <script>
@@ -57,7 +67,8 @@
                 type: 'number',
                 linkKossieCoder: 'https://www.youtube.com/kossiecoder',
                 currentValue: 0,
-                inputData2: ""
+                chap05Text: 'text',
+                chap05TextTwoWayBinding: 'text'
             },
             methods: {
                 nextYear: function() {
@@ -83,6 +94,9 @@
                 },
                 submit() {
                     alert("submitted" + this.inputData2)
+                },
+                updateText(event) { // 이 event는 자동으로 받은 event 객체
+                    this.chap05Text = event.target.value; // event.target.value가 현재 값을 가지고 있다
                 }
             }
         })
