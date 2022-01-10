@@ -115,6 +115,35 @@
             <!-- 자주 바꿔야하는 경우는 v-show가, 조건이 자주 바뀌지 않으면 v-if가 비용이 낮다 -->
         <div v-show="chap09Show">Hello</div>
         <button @click="updateChap09Show">Toggle</button>
+        <br><br>
+
+        <!-- chap10 v-for -->
+            <!-- 안좋은 코드 예제 -->
+        <div>
+            {{ chap10People[0].name }} {{ chap10People[0].age }}<br>
+            {{ chap10People[1].name }} {{ chap10People[1].age }}<br>
+            {{ chap10People[2].name }} {{ chap10People[2].age }}<br>
+        </div>
+        <br>
+            <!-- v-for 예제, 코드가 훨씬 간단하다, chap10Perple에 데이터가 추가되더라도 손댈 필요 없다 -->
+        <div v-for="chap10Person in chap10People"> <!-- in대신 of도 가능하지만 보통 in으로 쓴다 -->
+            {{ chap10Person.name }} {{ chap10Person.age }}
+        </div>
+        <br>
+            <!-- index를 받아오는 방법-->
+        <div v-for="(chap10Person, index) in chap10People"> <!-- in대신 of도 가능하지만 보통 in으로 쓴다 -->
+            {{ index }} {{ chap10Person.name }} {{ chap10Person.age }}
+        </div>
+        <br>
+
+            <!-- 공식문서에는 key를 지정하라고 권장한다 (unique한 값)-->
+        <div v-for="(chap10Person, index) in chap10People" :key="chap10Person.name">
+            {{ index }} {{ chap10Person.name }} {{ chap10Person.age }}
+        </div>
+            <!-- 공식문서에는 key를 지정하라고 권장한다 (unique한 값, 복합키도 된다)-->
+        <div v-for="(chap10Person, index) in chap10People" :key="chap10Person.name + chap10Person.age"> <!-- 복합키도 된다 -->
+            {{ index }} {{ chap10Person.name }} {{ chap10Person.age }}
+        </div>
     </div>
     <script>
         new Vue({
@@ -144,7 +173,12 @@
                 chap09IsYes: true,
                 chap09ShowTemplate: true,
                 chap09Number: 1,
-                chap09Show: true
+                chap09Show: true,
+                chap10People: [
+                    { name: 'a', age: 10 },
+                    { name: 'b', age: 20 },
+                    { name: 'c', age: 30 },
+                ]
             },
             methods: {
                 nextYear: function() {
