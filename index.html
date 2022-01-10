@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>First vue!</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <style>
+        .red {
+            color: red;
+        }
+        .font-bold {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -71,6 +79,18 @@
         {{ chap07Message }}<br>
         <button @click="changeChap07Message">watch</button><br>
         {{ chap07NewMessage }}
+        <br><br>
+
+        <!-- chap08 클래스와 스타일의 바인딩 -->
+        <div class="red bold">Hello</div> <!-- (클래스 바인딩이 아닌 예제) 위의 style에 선언한 클래스를 사용할 수 있다-->
+
+        <div :class="{ red: chap08IsRed, 'font-bold': chap08IsBold }">Hello</div><br> <!-- (클래스 바인딩 예제) 아래 버튼을 클릭할 떄 마다 색깔, 굵기 바꾸기 -->
+        <button @click="chap08UpdateRedAndBold">Update to red</button><br>
+
+        <div :style="{ fontSize: chap08Size }">Hello</div> <!-- 스타일 바인딩 예제, font-size대신 fontSize를 사용해야한다. -->
+        <br>
+
+        <div :style="chap08StyleObject">Hello</div> <!-- 스타일 바인딩 예제, object는 통쨰로 넘길 수 있다. -->
     </div>
     <script>
         new Vue({
@@ -89,7 +109,14 @@
                 chap06Number: 1,
                 chap06Message: '안녕하세요',
                 chap07Message: 'watch메시지',
-                chap07NewMessage: 'watch메시지'
+                chap07NewMessage: 'watch메시지',
+                chap08IsRed: false,
+                chap08IsBold: false,
+                chap08Size: '30px',
+                chap08StyleObject: {
+                    color: 'red',
+                    fontSize: '30px'
+                }
             },
             methods: {
                 nextYear: function() {
@@ -127,6 +154,10 @@
                 },
                 changeChap07Message() {
                     this.chap07Message = "watch 새로운 메시지" // chap07Message를 변경해준다.
+                },
+                chap08UpdateRedAndBold() {
+                    this.chap08IsRed = !this.chap08IsRed
+                    this.chap08IsBold = !this.chap08IsBold
                 }
             },
             computed: {
