@@ -91,6 +91,30 @@
         <br>
 
         <div :style="chap08StyleObject">Hello</div> <!-- 스타일 바인딩 예제, object는 통쨰로 넘길 수 있다. -->
+        <br><br>
+
+        <!-- chap09 v-if와 v-show -->
+        <div v-if="chap09IsYes">Yes</div> <!-- 여기에 <br>을 붙이면 동작 안함-->
+        <div v-else>No</div><br> <!-- v-if가 아니면 여기를 렌더링한다 -->
+        <button @click="updateChap09UpdateIsYes">Toggle</button>
+
+            <!-- 여러개를 묶어서 적용하는 방법 -->
+        <template v-if="chap09ShowTemplate">
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+        </template>
+        <div v-else>Can not show</div><br>
+        <button @click="updateChap09ShowTemplate">Toggle</button>
+            <!-- v-else-if 적용 방법-->
+        <div v-if="chap09Number === 1">1</div>
+        <div v-else-if="chap09Number === 2">2</div>
+        <div v-else>greater than 2</div>
+        <button @click="increaseChap09Number">Toggle</button>
+            <!-- v-show는 v-if와 비슷하지만 속성값으로 display: none을 준다 -->
+            <!-- 자주 바꿔야하는 경우는 v-show가, 조건이 자주 바뀌지 않으면 v-if가 비용이 낮다 -->
+        <div v-show="chap09Show">Hello</div>
+        <button @click="updateChap09Show">Toggle</button>
     </div>
     <script>
         new Vue({
@@ -116,7 +140,11 @@
                 chap08StyleObject: {
                     color: 'red',
                     fontSize: '30px'
-                }
+                },
+                chap09IsYes: true,
+                chap09ShowTemplate: true,
+                chap09Number: 1,
+                chap09Show: true
             },
             methods: {
                 nextYear: function() {
@@ -158,6 +186,22 @@
                 chap08UpdateRedAndBold() {
                     this.chap08IsRed = !this.chap08IsRed
                     this.chap08IsBold = !this.chap08IsBold
+                },
+                updateChap09UpdateIsYes() {
+                    this.chap09IsYes = !this.chap09IsYes
+                },
+                updateChap09ShowTemplate() {
+                    this.chap09ShowTemplate = !this.chap09ShowTemplate
+                },
+                increaseChap09Number() {
+                    if (this.chap09Number > 2) {
+                        this.chap09Number = 1
+                    } else {
+                        this.chap09Number++
+                    }
+                },
+                updateChap09Show() {
+                    this.chap09Show = !this.chap09Show
                 }
             },
             computed: {
