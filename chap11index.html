@@ -8,35 +8,78 @@
 </head>
 <body>
     <div id="app">
-        {{ name }}<br>
-        <button @click="changeText">Click</button>
+        <kossie-button></kossie-button> <!-- 아래처럼 component를 사용해서 코드 중복을 제거할 수 있다.-->
     </div>
     <div id="app-1"> <!-- vue instance와 이 태그가 연결돼야 사용할 수 있다.-->
-        {{ name }}<br>
-        <button @click="changeText">Click</button>
+        <kossie-button></kossie-button>
+    </div>
+    <div id="app-2">
+        <new-kossie-button></new-kossie-button>
     </div>
     <script>
-        const app = new Vue({
-            el: '#app',
-            data: {
-                name: "kossie"
+        Vue.component('hello-world', {
+            template: '<div>Hello world</div>' // 컴포넌트 안에서 컴포넌트를 사용할 수도 있다 
+        });
+        Vue.component('kossie-button', { // 컴포넌트 전역 등록 (어떤 컴포넌트를 더이상 사용하지 않더라도 최졸 빌드에는 들어가 있게 된다. 그래서 자바스크립트 양이 커진다)
+            template: `
+                <div>
+                {{ name }}<br>
+                <hello-world></hello-world> <!-- 컴포넌트 안에서 컴포넌트를 사용할 수도 있다 -->
+                <button @click="changeText">Click</button>
+                </div>
+            `,
+            data() { // 함수로 사용하지 않으면 call by reference라서 이 컴포넌트를 사용하는 다른 곳에서도 위치가 바뀌어버린다
+                return {
+                    name: "kossie"
+                }
             },
             methods: {
                 changeText() {
-                    app1.name = "kossie updated" // this대신 app1을 사용하면 다른 인스턴스를 가리킬 수 있다.
+                    this.name = "kossie updated" // this대신 app1을 사용하면 다른 인스턴스를 가리킬 수 있다.
                 }
             }
-        })
+        });
 
-        const app1 = new Vue({
-            el: '#app-1',
-            data: {
-                name: "kossie1"
+        const NewHelloWorld = {
+            template: `
+                <div>New Hello world</div>
+            `
+        }
+        const NewKossieButton = { // 지역 컴포넌트로 등록하는 법
+            components: {
+                'new-hello-world': NewHelloWorld
+            },
+            template: `
+                <div>
+                {{ name }}<br>
+                <new-hello-world></new-hello-world>
+                <button @click="changeText">new Click</button>
+                </div>
+            `,
+            data() { 
+                return {
+                    name: "newKossie"
+                }
             },
             methods: {
                 changeText() {
-                    this.name = "kossie1 updated"
+                    this.name = "newKossie updated" // this대신 app1을 사용하면 다른 인스턴스를 가리킬 수 있다.
                 }
+            }
+        };
+
+        new Vue({
+            el: '#app'
+        })
+
+        new Vue({
+            el: '#app-1'
+        })
+
+        new Vue({
+            el: '#app-2',
+            components: { // 지역 컴포넌트 사용 등록은 이렇게 한다
+                'new-kossie-button': NewKossieButton
             }
         })
     </script>
