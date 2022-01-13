@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First vue!</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{ name }}<br>
+        <button @click="changeText">Click</button>
+    </div>
+    <div id="app-1"> <!-- vue instance와 이 태그가 연결돼야 사용할 수 있다.-->
+        {{ name }}<br>
+        <button @click="changeText">Click</button>
+    </div>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                name: "kossie"
+            },
+            methods: {
+                changeText() {
+                    app1.name = "kossie updated" // this대신 app1을 사용하면 다른 인스턴스를 가리킬 수 있다.
+                }
+            }
+        })
+
+        const app1 = new Vue({
+            el: '#app-1',
+            data: {
+                name: "kossie1"
+            },
+            methods: {
+                changeText() {
+                    this.name = "kossie1 updated"
+                }
+            }
+        })
+    </script>
+</body>
+</html>
